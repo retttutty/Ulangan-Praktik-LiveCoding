@@ -100,6 +100,49 @@ def filter_films(films, filter_type):
     else:
         print(f"❌ Tidak ada {title.lower()}.")
 
+# Fungsi untuk pencarian lanjutan
+def search_advanced(films, query):
+    results = [f for f in films if query.lower() in f['nama'].lower() or query.lower() in f['genre'].lower() or query.lower() in f['ulasan'].lower()]
+    if results:
+        print(f"🔍 Hasil pencarian untuk '{query}':")
+        for i, film in enumerate(results, 1):
+            display_film(film, i)
+    else:
+        print(f"❌ Tidak ada film yang cocok dengan '{query}'.")
+
+# Fungsi untuk mengurutkan film
+def sort_films(films, sort_by):
+    if sort_by == 'nama':
+        sorted_films = sorted(films, key=lambda x: x['nama'].lower())
+    elif sort_by == 'rating':
+        sorted_films = sorted(films, key=lambda x: x['rating'], reverse=True)
+    elif sort_by == 'genre':
+        sorted_films = sorted(films, key=lambda x: x['genre'].lower())
+    else:
+        return films
+    return sorted_films
+
+# Fungsi untuk rekomendasi acak
+def random_recommendation(films):
+    candidates = [f for f in films if f['favorit'] or f['rating'] >= 8]
+    if candidates:
+        rec = random.choice(candidates)
+        print("🎲 Rekomendasi Acak:")
+        display_film(rec)
+    else:
+        print("❌ Belum ada film favorit atau rating tinggi untuk direkomendasikan.")
+
+# Fungsi untuk top film
+def top_films(films, n=5):
+    sorted_films = sorted(films, key=lambda x: x['rating'], reverse=True)
+    top = sorted_films[:n]
+    if top:
+        print(f"🏆 Top {n} Film Berdasarkan Rating:")
+        for i, film in enumerate(top, 1):
+            display_film(film, i)
+    else:
+        print("❌ Belum ada film.")
+
 # Fungsi utama aplikasi
 def main():
     films = load_films()
@@ -115,8 +158,12 @@ def main():
         print("6. 📊 Lihat statistik")
         print("7. 🎯 Lihat rekomendasi")
         print("8. 🔧 Filter film")
-        print("9. 🚪 Keluar")
-        choice = input("Pilih opsi (1-9): ").strip()
+        print("9. 🔎 Pencarian lanjutan")
+        print("10. 🔀 Urutkan daftar")
+        print("11. 🎲 Rekomendasi acak")
+        print("12. 🏆 Top 5 film")
+        print("13. 🚪 Keluar")
+        choice = input("Pilih opsi (1-13): ").strip()
 
         if choice == '1':
             nama = input("🎥 Masukkan nama film: ").strip()
@@ -269,6 +316,32 @@ def main():
                 print("❌ Pilihan tidak valid.")
 
         elif choice == '9':
+            query = input("🔎 Masukkan kata kunci pencarian: ").strip()
+            search_advanced(films, query)
+
+        elif choice == '10':
+            print("🔀 Pilih pengurutan:")
+            print("1. 📝 Nama")
+            print("2. ⭐ Rating")
+            sort_choice = input("Pilih (1-2): ").strip()
+            if sort_choice == '1':
+                sorted_list = sort_films(films, 'nama')
+            elif sort_choice == '2':
+                sorted_list = sort_films(films, 'rating')
+            else:
+                print("❌ Pilihan tidak valid.")
+                continue
+            print("\n📋 Daftar film yang diurutkan:")
+            for i, film in enumerate(sorted_list, 1):
+                display_film(film, i)
+
+        elif choice == '11':
+            random_recommendation(films)
+
+        elif choice == '12':
+            top_films(films)
+
+        elif choice == '13':
             print("👋 Terima kasih telah menggunakan Movie Check! Sampai jumpa! 🎬")
             break
 
