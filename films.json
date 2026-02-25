@@ -25,5 +25,14 @@
         "favorit": false,
         "genre": "comedy",
         "rekomendasi": "Belum ada film serupa dengan rating tinggi."
+    },
+    {
+        "nama": "coco",
+        "rating": 10,
+        "ulasan": "bagus",
+        "selesai": true,
+        "favorit": true,
+        "genre": "drama",
+        "rekomendasi": "Berdasarkan genre 'drama', coba 'coco' (Rating: 10/10)"
     }
 ]

@@ -37,12 +37,12 @@ def display_film(film, index=None):
         print(f"🎯 Rekomendasi: {film['rekomendasi']}")
 
 # Fungsi untuk menghasilkan rekomendasi otomatis berdasarkan genre
-def generate_recommendation(films, genre):
-    similar_films = [f for f in films if f['genre'].lower() == genre.lower() and f['rating'] >= 7]
+def generate_recommendation(films, genre, current_name):
+    similar_films = [f for f in films if f['genre'].lower() == genre.lower() and f['rating'] >= 7 and f['nama'].lower() != current_name.lower()]
     if similar_films:
         rec = random.choice(similar_films)
-        return f"Berdasarkan genre '{genre}', coba '{rec['nama']}' (Rating: {rec['rating']}/10)"
-    return "Belum ada film serupa dengan rating tinggi."
+        return f"Berdasarkan genre '{genre}', coba '{rec['nama']}' (Rating: {rec['rating']}/10) - film serupa yang belum ditonton."
+    return "Belum ada film serupa dengan rating tinggi yang belum ditonton."
 
 # Fungsi untuk statistik
 def show_statistics(films):
@@ -85,6 +85,12 @@ def filter_films(films, filter_type):
     elif filter_type == 'belum':
         results = [f for f in films if not f['selesai']]
         title = "⏳ Film Belum Selesai"
+    elif filter_type == 'bagus':
+        results = [f for f in films if f['rating'] >= 8]
+        title = "⭐ Film Rating Bagus (≥8)"
+    elif filter_type == 'kurang':
+        results = [f for f in films if f['rating'] < 8]
+        title = "😕 Film Rating Kurang (<8)"
     else:
         return
     if results:
@@ -119,9 +125,9 @@ def main():
                 continue
             # Hitung jumlah film dengan nama yang sama yang sudah selesai ditonton
             count = sum(1 for f in films if f['nama'].lower() == nama.lower() and f['selesai'])
-            favorit_auto = count >= 3
+            favorit_auto = count >= 3 and rating > 8
             if favorit_auto:
-                print(f"❤️ Karena film '{nama}' sudah ditonton {count} kali, otomatis ditandai sebagai favorit!")
+                print(f"❤️ Karena film '{nama}' sudah ditonton {count} kali dan mendapat rating >8, otomatis ditandai sebagai favorit!")
             try:
                 rating = int(input("⭐ Masukkan rating (1-10): ").strip())
                 if not 1 <= rating <= 10:
@@ -138,7 +144,7 @@ def main():
                 favorit = True
             genre = input("🎭 Masukkan genre: ").strip()
             # Rekomendasi otomatis
-            rekomendasi = generate_recommendation(films, genre)
+            rekomendasi = generate_recommendation(films, genre, nama)
 
             film = {
                 'nama': nama,
@@ -246,13 +252,19 @@ def main():
             print("1. ❤️ Favorit")
             print("2. ✅ Selesai")
             print("3. ⏳ Belum Selesai")
-            filter_choice = input("Pilih (1-3): ").strip()
+            print("4. ⭐ Rating Bagus (≥8)")
+            print("5. 😕 Rating Kurang (<8)")
+            filter_choice = input("Pilih (1-5): ").strip()
             if filter_choice == '1':
                 filter_films(films, 'favorit')
             elif filter_choice == '2':
                 filter_films(films, 'selesai')
             elif filter_choice == '3':
                 filter_films(films, 'belum')
+            elif filter_choice == '4':
+                filter_films(films, 'bagus')
+            elif filter_choice == '5':
+                filter_films(films, 'kurang')
             else:
                 print("❌ Pilihan tidak valid.")
 
