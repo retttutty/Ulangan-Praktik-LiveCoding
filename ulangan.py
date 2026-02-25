@@ -97,10 +97,10 @@ def filter_films(films, filter_type):
 # Fungsi utama aplikasi
 def main():
     films = load_films()
-    print("🎬 Selamat datang di Aplikasi Catatan Film Ditonton! 🎬")
+    print("🎬 Selamat datang di Movie Check! 🎬")
     while True:
         print("\n" + "="*50)
-        print("🍿 === Menu Aplikasi Catatan Film === 🍿")
+        print("🍿 === Menu Movie Check === 🍿")
         print("1. ➕ Tambah film")
         print("2. 👀 Lihat daftar film")
         print("3. ✏️  Edit film")
@@ -117,6 +117,11 @@ def main():
             if not nama:
                 print("❌ Nama film tidak boleh kosong.")
                 continue
+            # Hitung jumlah film dengan nama yang sama yang sudah selesai ditonton
+            count = sum(1 for f in films if f['nama'].lower() == nama.lower() and f['selesai'])
+            favorit_auto = count >= 3
+            if favorit_auto:
+                print(f"❤️ Karena film '{nama}' sudah ditonton {count} kali, otomatis ditandai sebagai favorit!")
             try:
                 rating = int(input("⭐ Masukkan rating (1-10): ").strip())
                 if not 1 <= rating <= 10:
@@ -127,7 +132,10 @@ def main():
                 continue
             ulasan = input("💬 Masukkan ulasan: ").strip()
             selesai = input("✅ Sudah selesai ditonton? (y/n): ").strip().lower() == 'y'
-            favorit = input("❤️ Apakah favorit? (y/n): ").strip().lower() == 'y'
+            if not favorit_auto:
+                favorit = input("❤️ Apakah favorit? (y/n): ").strip().lower() == 'y'
+            else:
+                favorit = True
             genre = input("🎭 Masukkan genre: ").strip()
             # Rekomendasi otomatis
             rekomendasi = generate_recommendation(films, genre)
@@ -249,7 +257,7 @@ def main():
                 print("❌ Pilihan tidak valid.")
 
         elif choice == '9':
-            print("👋 Terima kasih telah menggunakan aplikasi! Sampai jumpa! 🎬")
+            print("👋 Terima kasih telah menggunakan Movie Check! Sampai jumpa! 🎬")
             break
 
         else:

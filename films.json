@@ -1,20 +1,29 @@
 [
     {
-        "nama": "little miss sunshine",
-        "rating": 9,
-        "ulasan": "sedih cry",
-        "selesai": true,
-        "favorit": true,
-        "genre": "comedy",
-        "rekomendasi": "ayam"
-    },
-    {
         "nama": "spiderman",
         "rating": 10,
         "ulasan": "baguss",
         "selesai": false,
         "favorit": false,
         "genre": "action",
+        "rekomendasi": "Belum ada film serupa dengan rating tinggi."
+    },
+    {
+        "nama": "coco",
+        "rating": 10,
+        "ulasan": "baguss bangett",
+        "selesai": true,
+        "favorit": true,
+        "genre": "drama",
+        "rekomendasi": "Belum ada film serupa dengan rating tinggi."
+    },
+    {
+        "nama": "agak lain",
+        "rating": 9,
+        "ulasan": "lucuuu",
+        "selesai": true,
+        "favorit": false,
+        "genre": "comedy",
         "rekomendasi": "Belum ada film serupa dengan rating tinggi."
     }
 ]
