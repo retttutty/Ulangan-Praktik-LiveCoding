@@ -22,7 +22,11 @@ def save_films(films):
 def load_wishlist():
     if os.path.exists(FILE_WISHLIST):
         with open(FILE_WISHLIST, 'r') as file:
-            return json.load(file)
+            data = json.load(file)
+            # Jika data lama (list string), konversi ke dict
+            if data and isinstance(data[0], str):
+                return [{'nama': item, 'ditonton': False} for item in data]
+            return data
     return []
 
 # Fungsi untuk menyimpan wishlist ke file
@@ -338,8 +342,8 @@ def main():
         elif choice == '11':
             nama = input("🎥 Masukkan nama film yang ingin ditonton: ").strip()
             if nama:
-                if nama not in wishlist:
-                    wishlist.append(nama)
+                if not any(item['nama'] == nama for item in wishlist):
+                    wishlist.append({'nama': nama, 'ditonton': False})
                     save_wishlist(wishlist)
                     print(f"✅ '{nama}' berhasil ditambahkan ke wishlist!")
                 else:
@@ -350,8 +354,40 @@ def main():
         elif choice == '12':
             if wishlist:
                 print("\n📋 Wishlist film yang ingin ditonton:")
-                for i, film in enumerate(wishlist, 1):
-                    print(f"{i}. 🎥 {film}")
+                for i, item in enumerate(wishlist, 1):
+                    status = "✅ Sudah Ditonton" if item['ditonton'] else "⏳ Belum Ditonton"
+                    print(f"{i}. 🎥 {item['nama']} - {status}")
+                print("\n🔧 Opsi:")
+                print("1. 🏷️  Toggle status ditonton")
+                print("2. 🗑️  Hapus dari wishlist")
+                print("3. ↩️  Kembali")
+                sub_choice = input("Pilih (1-3): ").strip()
+                if sub_choice == '1':
+                    try:
+                        index = int(input("Masukkan nomor film: ")) - 1
+                        if 0 <= index < len(wishlist):
+                            wishlist[index]['ditonton'] = not wishlist[index]['ditonton']
+                            save_wishlist(wishlist)
+                            print("✅ Status diperbarui!")
+                        else:
+                            print("❌ Nomor tidak valid.")
+                    except ValueError:
+                        print("❌ Masukkan nomor yang valid.")
+                elif sub_choice == '2':
+                    try:
+                        index = int(input("Masukkan nomor film yang ingin dihapus: ")) - 1
+                        if 0 <= index < len(wishlist):
+                            removed = wishlist.pop(index)
+                            save_wishlist(wishlist)
+                            print(f"✅ '{removed['nama']}' dihapus dari wishlist!")
+                        else:
+                            print("❌ Nomor tidak valid.")
+                    except ValueError:
+                        print("❌ Masukkan nomor yang valid.")
+                elif sub_choice == '3':
+                    pass
+                else:
+                    print("❌ Pilihan tidak valid.")
             else:
                 print("❌ Wishlist kosong.")
 
