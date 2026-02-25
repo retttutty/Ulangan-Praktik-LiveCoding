@@ -4,6 +4,7 @@ import random
 
 # Nama file untuk menyimpan daftar film
 FILE_NAME = 'films.json'
+FILE_WISHLIST = 'wishlist.json'
 
 # Fungsi untuk memuat daftar film dari file
 def load_films():
@@ -16,6 +17,18 @@ def load_films():
 def save_films(films):
     with open(FILE_NAME, 'w') as file:
         json.dump(films, file, indent=4)
+
+# Fungsi untuk memuat wishlist dari file
+def load_wishlist():
+    if os.path.exists(FILE_WISHLIST):
+        with open(FILE_WISHLIST, 'r') as file:
+            return json.load(file)
+    return []
+
+# Fungsi untuk menyimpan wishlist ke file
+def save_wishlist(wishlist):
+    with open(FILE_WISHLIST, 'w') as file:
+        json.dump(wishlist, file, indent=4)
 
 # Fungsi untuk menampilkan film dengan hiasan
 def display_film(film, index=None):
@@ -148,6 +161,7 @@ def top_films(films, n=5):
 # Fungsi utama aplikasi
 def main():
     films = load_films()
+    wishlist = load_wishlist()
     print("🎬 Selamat datang di Movie Check! 🎬")
     while True:
         print("\n" + "="*50)
@@ -162,8 +176,10 @@ def main():
         print("8. 🔎 Pencarian lanjutan")
         print("9. 🎲 Rekomendasi acak")
         print("10. 🏆 Top 5 film")
-        print("11. 🚪 Keluar")
-        choice = input("Pilih opsi (1-11): ").strip()
+        print("11. ➕ Tambah ke wishlist")
+        print("12. 👀 Lihat wishlist")
+        print("13. 🚪 Keluar")
+        choice = input("Pilih opsi (1-13): ").strip()
 
         if choice == '1':
             nama = input("🎥 Masukkan nama film: ").strip()
@@ -320,6 +336,26 @@ def main():
             top_films(films)
 
         elif choice == '11':
+            nama = input("🎥 Masukkan nama film yang ingin ditonton: ").strip()
+            if nama:
+                if nama not in wishlist:
+                    wishlist.append(nama)
+                    save_wishlist(wishlist)
+                    print(f"✅ '{nama}' berhasil ditambahkan ke wishlist!")
+                else:
+                    print(f"❌ '{nama}' sudah ada di wishlist.")
+            else:
+                print("❌ Nama film tidak boleh kosong.")
+
+        elif choice == '12':
+            if wishlist:
+                print("\n📋 Wishlist film yang ingin ditonton:")
+                for i, film in enumerate(wishlist, 1):
+                    print(f"{i}. 🎥 {film}")
+            else:
+                print("❌ Wishlist kosong.")
+
+        elif choice == '13':
             print("👋 Terima kasih telah menggunakan Movie Check! Sampai jumpa! 🎬")
             break
 

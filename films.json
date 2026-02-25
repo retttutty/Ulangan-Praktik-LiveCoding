@@ -1,32 +1,5 @@
 [
     {
-        "nama": "spiderman",
-        "rating": 10,
-        "ulasan": "baguss",
-        "selesai": false,
-        "favorit": false,
-        "genre": "action",
-        "rekomendasi": "Belum ada film serupa dengan rating tinggi."
-    },
-    {
-        "nama": "coco",
-        "rating": 10,
-        "ulasan": "baguss bangett",
-        "selesai": true,
-        "favorit": true,
-        "genre": "drama",
-        "rekomendasi": "Belum ada film serupa dengan rating tinggi."
-    },
-    {
-        "nama": "agak lain",
-        "rating": 9,
-        "ulasan": "lucuuu",
-        "selesai": true,
-        "favorit": false,
-        "genre": "comedy",
-        "rekomendasi": "Belum ada film serupa dengan rating tinggi."
-    },
-    {
         "nama": "sewu dino",
         "rating": 8,
         "ulasan": "serem",
@@ -34,6 +7,26 @@
         "favorit": false,
         "genre": "horror",
         "tanggal": "20230206",
+        "rekomendasi": "Belum ada film serupa dengan rating tinggi yang belum ditonton."
+    },
+    {
+        "nama": "coco",
+        "rating": 10,
+        "ulasan": "sedihh",
+        "selesai": true,
+        "favorit": true,
+        "genre": "drama",
+        "tanggal": "20200206",
+        "rekomendasi": "Belum ada film serupa dengan rating tinggi yang belum ditonton."
+    },
+    {
+        "nama": "spiderman",
+        "rating": 8,
+        "ulasan": "good",
+        "selesai": false,
+        "favorit": false,
+        "genre": "action",
+        "tanggal": "20210802",
         "rekomendasi": "Belum ada film serupa dengan rating tinggi yang belum ditonton."
     }
 ]
