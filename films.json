@@ -25,5 +25,15 @@
         "favorit": false,
         "genre": "comedy",
         "rekomendasi": "Belum ada film serupa dengan rating tinggi."
+    },
+    {
+        "nama": "sewu dino",
+        "rating": 8,
+        "ulasan": "serem",
+        "selesai": true,
+        "favorit": false,
+        "genre": "horror",
+        "tanggal": "20230206",
+        "rekomendasi": "Belum ada film serupa dengan rating tinggi yang belum ditonton."
     }
 ]

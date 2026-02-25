@@ -24,6 +24,7 @@ def display_film(film, index=None):
     stars = "⭐" * (film['rating'] // 2) + "☆" * (film['rating'] % 2)
     if index:
         print(f"{index}. 🎥 {film['nama']} - Rating: {stars} ({film['rating']}/10) - {status}{fav}")
+        print(f"   📅 Ditonton: {film.get('tanggal', 'Tidak diketahui')}")
         print(f"   🎭 Genre: {film['genre']}")
         print(f"   💬 Ulasan: {film['ulasan']}")
         print(f"   🎯 Rekomendasi: {film['rekomendasi']}")
@@ -32,6 +33,7 @@ def display_film(film, index=None):
         print(f"⭐ Rating: {stars} ({film['rating']}/10)")
         print(f"📊 Status: {status}")
         print(f"❤️ Favorit: {'Ya' if film['favorit'] else 'Tidak'}")
+        print(f"📅 Ditonton: {film.get('tanggal', 'Tidak diketahui')}")
         print(f"🎭 Genre: {film['genre']}")
         print(f"💬 Ulasan: {film['ulasan']}")
         print(f"🎯 Rekomendasi: {film['rekomendasi']}")
@@ -116,8 +118,8 @@ def sort_films(films, sort_by):
         sorted_films = sorted(films, key=lambda x: x['nama'].lower())
     elif sort_by == 'rating':
         sorted_films = sorted(films, key=lambda x: x['rating'], reverse=True)
-    elif sort_by == 'genre':
-        sorted_films = sorted(films, key=lambda x: x['genre'].lower())
+    elif sort_by == 'tanggal':
+        sorted_films = sorted(films, key=lambda x: x.get('tanggal', '0000-00-00'), reverse=True)
     else:
         return films
     return sorted_films
@@ -190,6 +192,7 @@ def main():
             else:
                 favorit = True
             genre = input("🎭 Masukkan genre: ").strip()
+            tanggal = input("📅 Masukkan tanggal ditonton (YYYY-MM-DD): ").strip()
             # Rekomendasi otomatis
             rekomendasi = generate_recommendation(films, genre, nama)
 
@@ -200,6 +203,7 @@ def main():
                 'selesai': selesai,
                 'favorit': favorit,
                 'genre': genre,
+                'tanggal': tanggal,
                 'rekomendasi': rekomendasi
             }
             films.append(film)
@@ -323,11 +327,14 @@ def main():
             print("🔀 Pilih pengurutan:")
             print("1. 📝 Nama")
             print("2. ⭐ Rating")
-            sort_choice = input("Pilih (1-2): ").strip()
+            print("3. 📅 Tanggal (terbaru ke terlama)")
+            sort_choice = input("Pilih (1-3): ").strip()
             if sort_choice == '1':
                 sorted_list = sort_films(films, 'nama')
             elif sort_choice == '2':
                 sorted_list = sort_films(films, 'rating')
+            elif sort_choice == '3':
+                sorted_list = sort_films(films, 'tanggal')
             else:
                 print("❌ Pilihan tidak valid.")
                 continue
