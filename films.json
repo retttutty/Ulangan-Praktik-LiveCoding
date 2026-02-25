@@ -1,0 +1,20 @@
+[
+    {
+        "nama": "little miss sunshine",
+        "rating": 9,
+        "ulasan": "sedih cry",
+        "selesai": true,
+        "favorit": true,
+        "genre": "comedy",
+        "rekomendasi": "ayam"
+    },
+    {
+        "nama": "spiderman",
+        "rating": 10,
+        "ulasan": "baguss",
+        "selesai": false,
+        "favorit": false,
+        "genre": "action",
+        "rekomendasi": "Belum ada film serupa dengan rating tinggi."
+    }
+]
